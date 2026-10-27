@@ -20,6 +20,7 @@ install on top of it. The PHP namespace stays `Lunar\Core\`. For everything Luna
 | Staff roles and permissions seeded after `migrate` | always | behind `lunar.staff.seed_roles_and_permissions` (default `true`) |
 | Causer of core's own activity entries | `auth()->user()`, set explicitly | activitylog's `CauserResolver` (the signed-in user unless the app overrides it) |
 | `media` table migration | always runs | behind `lunar.database.create_media_table` (default `true`) |
+| Route parameter for every model (`{tag}`, `{customer}`...) | always bound | behind `lunar.routing.bind_models` (default `true`) |
 
 Core's own migrations for the `activity_log` and permission tables skipped tables that already
 existed on the way up, but dropped them on the way down. Rolling back Lunar's migrations in an app
@@ -48,6 +49,15 @@ An app that creates spatie/laravel-medialibrary's `media` table in its own migra
 ```php
 // config/lunar/database.php
 'create_media_table' => false,
+```
+
+Core binds a route parameter named after every model, app-wide. An app with a route that uses one of
+those names for something else (`{tag}`, `{customer}`, `{order}`, or another package's route such as
+Horizon's `/monitoring/{tag}`) should set the switch below and bind the models it needs itself:
+
+```php
+// config/lunar/routing.php
+'bind_models' => false,
 ```
 
 ## Keeping up with upstream

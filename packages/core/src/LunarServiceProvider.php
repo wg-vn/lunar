@@ -171,6 +171,7 @@ class LunarServiceProvider extends ServiceProvider
         'payments',
         'pricing',
         'products',
+        'routing',
         'search',
         'shipping',
         'staff',

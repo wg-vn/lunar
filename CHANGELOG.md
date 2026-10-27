@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versions follow
 upstream Lunar's with one more segment; see the Releasing section of the README.
 
+## [2.0.0-alpha.6.4] - 2026-10-26
+
+### Added
+- `lunar.routing.bind_models` config switch (default `true`), in a new `routing` config file. When
+  `false`, core registers no route parameter for its models. Those parameters are named after the
+  model (`{tag}`, `{customer}`, `{order}`) and apply to every route in the application, so a route
+  that uses one of those names for something else, including another package's, resolved a Lunar
+  model and answered 404.
+
 ## [2.0.0-alpha.6.3] - 2026-10-26
 
 ### Added

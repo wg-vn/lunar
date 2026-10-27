@@ -164,7 +164,9 @@ class ModelManifest implements ModelManifestContract
     protected function registerModels(array $modelClasses): void
     {
         foreach ($modelClasses as $modelClass) {
-            $this->bindRouteParameter($this->bindingName($modelClass), $modelClass);
+            if (config('lunar.routing.bind_models', true)) {
+                $this->bindRouteParameter($this->bindingName($modelClass), $modelClass);
+            }
 
             if (App::isBooted()) {
                 Relation::morphMap([

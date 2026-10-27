@@ -76,6 +76,35 @@ test('an added directory is scanned once and registered', function (): void {
         ->and(app('router')->getBindingCallback('product'))->not->toBeNull();
 });
 
+/**
+ * Binds under a name no core model uses, since the test application's own
+ * provider has already bound every model name.
+ */
+function probingModelManifest(): ModelManifest
+{
+    return new class extends ModelManifest
+    {
+        protected function bindingName(string $modelClass): string
+        {
+            return 'bindingProbe';
+        }
+    };
+}
+
+test('every core model gets a route parameter by default', function (): void {
+    probingModelManifest()->register();
+
+    expect(app('router')->getBindingCallback('bindingProbe'))->not->toBeNull();
+});
+
+test('no route parameter is bound when the switch is off', function (): void {
+    config(['lunar.routing.bind_models' => false]);
+
+    probingModelManifest()->register();
+
+    expect(app('router')->getBindingCallback('bindingProbe'))->toBeNull();
+});
+
 test('a missing added directory is logged, not thrown', function (): void {
     $manifest = countingModelManifest();
 
