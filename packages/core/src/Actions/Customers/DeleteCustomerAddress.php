@@ -15,7 +15,6 @@ class DeleteCustomerAddress implements DeletesCustomerAddress
 
         if ($customer) {
             activity()
-                ->causedBy(auth()->user())
                 ->performedOn($customer)
                 ->event('address-deleted')
                 ->log('address-deleted');

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lunar\Core\Contracts\Actions\Orders\CancelsOrder;
 use Lunar\Core\Contracts\Actions\Orders\ClosesOrder;
@@ -8,8 +9,10 @@ use Lunar\Core\Models\Currency;
 use Lunar\Core\Models\Language;
 use Lunar\Core\Models\Location;
 use Lunar\Core\Models\Order;
+use Lunar\Tests\Core\Stubs\User;
 use Lunar\Tests\Core\TestCase;
 use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Support\CauserResolver;
 
 uses(TestCase::class);
 uses(RefreshDatabase::class);
@@ -44,6 +47,29 @@ it('logs a dedicated event with the reason when an order is cancelled', function
     expect($log)->not->toBeNull()
         ->and($log->subject_id)->toBe($this->order->id)
         ->and($log->getProperty('reason'))->toBe('items-unavailable');
+});
+
+it('records the signed-in user as the causer by default', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    app(CancelsOrder::class)->execute($this->order, 'items-unavailable', 'No stock');
+
+    expect(latestOrderActivity($this->order)->causer_id)->toBe($user->id);
+});
+
+it('resolves the causer through the activitylog causer resolver', function () {
+    $signedIn = User::factory()->create();
+    $actingFor = User::factory()->create();
+    $this->actingAs($signedIn);
+
+    app(CauserResolver::class)->resolveUsing(
+        fn (mixed $subject) => $subject instanceof Model ? $subject : $actingFor
+    );
+
+    app(CancelsOrder::class)->execute($this->order, 'items-unavailable', 'No stock');
+
+    expect(latestOrderActivity($this->order)->causer_id)->toBe($actingFor->id);
 });
 
 it('does not log a generic "updated" entry when closing', function () {

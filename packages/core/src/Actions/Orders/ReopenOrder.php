@@ -22,7 +22,6 @@ class ReopenOrder implements ReopensOrder
         $order->forceFill(['closed_at' => null])->saveQuietly();
 
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($order)
             ->event('order-reopened')
             ->log('order-reopened');

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versions follow
 upstream Lunar's with one more segment; see the Releasing section of the README.
 
+## [2.0.0-alpha.6.2] - 2026-10-26
+
+### Changed
+- Core's activity entries (order close, reopen, cancel and customer notification, customer user and
+  address changes, transactions, fulfilments) no longer set their causer to `auth()->user()`. The
+  causer comes from activitylog's `CauserResolver`, which still returns the signed-in user unless
+  the host app overrides it, for example to name the real user during impersonation.
+
 ## [2.0.0-alpha.6.1] - 2026-10-26
 
 Built from upstream `lunarphp/lunar` `2.x` at `7f464be7` (`2.0.0-alpha.6` plus 11 commits).

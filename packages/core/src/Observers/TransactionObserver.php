@@ -18,7 +18,6 @@ class TransactionObserver
     {
         /** @var Transaction $transaction */
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($transaction->order()->first())
             ->event($transaction->type)
             ->withProperties([

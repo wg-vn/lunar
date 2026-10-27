@@ -50,7 +50,6 @@ class CancelOrder implements CancelsOrder
             ])->saveQuietly();
 
             activity()
-                ->causedBy(auth()->user())
                 ->performedOn($order)
                 ->event('order-cancelled')
                 ->withProperties(['reason' => $reason, 'note' => $note])

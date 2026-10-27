@@ -16,7 +16,6 @@ class CreateCustomerAddress implements CreatesCustomerAddress
         // Explicit timeline entry on the customer, so address changes show
         // up in the customer's activity log alongside created/updated.
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($customer)
             ->event('address-created')
             ->log('address-created');

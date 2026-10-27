@@ -12,7 +12,6 @@ class UnlinkCustomerUser implements UnlinksCustomerUser
         $customer->users()->detach($userId);
 
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($customer)
             ->event('user-unlinked')
             ->log('user-unlinked');

@@ -52,7 +52,6 @@ class FulfilmentObserver
         }
 
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($order)
             ->event('fulfilment-update')
             ->withProperties(array_merge([

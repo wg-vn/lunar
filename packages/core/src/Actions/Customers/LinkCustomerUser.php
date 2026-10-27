@@ -22,7 +22,6 @@ class LinkCustomerUser implements LinksCustomerUser
         $customer->users()->syncWithoutDetaching([$user->getKey()]);
 
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($customer)
             ->event('user-linked')
             ->log('user-linked');

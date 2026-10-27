@@ -18,6 +18,7 @@ install on top of it. The PHP namespace stays `Lunar\Core\`. For everything Luna
 | `spatie/laravel-permission` | ^6.12 | ^8.3 |
 | `activity_log` and permission-table migrations | shipped in core | not shipped; the host app owns these tables |
 | Staff roles and permissions seeded after `migrate` | always | behind `lunar.staff.seed_roles_and_permissions` (default `true`) |
+| Causer of core's own activity entries | `auth()->user()`, set explicitly | activitylog's `CauserResolver` (the signed-in user unless the app overrides it) |
 
 Core's own migrations for the `activity_log` and permission tables skipped tables that already
 existed on the way up, but dropped them on the way down. Rolling back Lunar's migrations in an app

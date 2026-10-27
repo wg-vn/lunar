@@ -26,7 +26,6 @@ class CloseOrder implements ClosesOrder
         $order->forceFill(['closed_at' => now()])->saveQuietly();
 
         activity()
-            ->causedBy(auth()->user())
             ->performedOn($order)
             ->event('order-closed')
             ->log('order-closed');

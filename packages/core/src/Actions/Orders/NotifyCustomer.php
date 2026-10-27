@@ -57,7 +57,6 @@ class NotifyCustomer implements NotifiesCustomer
             );
 
             activity()
-                ->causedBy(auth()->user())
                 ->performedOn($order)
                 ->event('email-notification')
                 ->withProperties([
