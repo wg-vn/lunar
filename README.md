@@ -1,41 +1,81 @@
-<p align="center"><a href="https://lunarphp.com/" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lunarphp/art/main/lunar-logo-dark.svg"><img alt="Lunar" width="200" src="https://raw.githubusercontent.com/lunarphp/art/main/lunar-logo.svg"></picture></a></p>
+# wg-vn/lunar-core
 
-[Lunar](https://lunarphp.com) is a set of Laravel packages that bring functionality akin to Shopify and other e-commerce platforms to 
-Laravel. You have complete freedom to create your own storefront(s), but we've already done the hard work for you in 
-the backend.
+Lunar's e-commerce core for Laravel, forked from the `2.x` line of
+[lunarphp/lunar](https://github.com/lunarphp/lunar) to run on the current majors of the Spatie and
+Scout packages a host app is likely to use already. Not affiliated with LunarPHP Ltd.
 
-This repository serves as a monorepo for the main packages that make up Lunar.
+This repository is a copy of the upstream monorepo. Only `packages/core` is published, as
+`wg-vn/lunar-core`, and it replaces `lunarphp/core`, so Lunar add-ons that require `lunarphp/core`
+install on top of it. The PHP namespace stays `Lunar\Core\`. For everything Lunar itself does, see the
+[Lunar documentation](https://docs.lunarphp.com/).
 
-## Documentation
+## How it differs from upstream
 
-- [v1.0 documentation](https://docs.lunarphp.com/)
+| | Upstream `lunarphp/core` 2.x | `wg-vn/lunar-core` |
+| --- | --- | --- |
+| `spatie/laravel-activitylog` | ^4.10 | ^5.1 |
+| `laravel/scout` | ^10.13 | ^11.7 |
+| `spatie/laravel-permission` | ^6.12 | ^8.3 |
+| `activity_log` and permission-table migrations | shipped in core | not shipped; the host app owns these tables |
+| Staff roles and permissions seeded after `migrate` | always | behind `lunar.staff.seed_roles_and_permissions` (default `true`) |
 
-## Contribution
+Core's own migrations for the `activity_log` and permission tables skipped tables that already
+existed on the way up, but dropped them on the way down. Rolling back Lunar's migrations in an app
+that owns those tables deleted its audit log and every role and permission.
 
-- Bug reports should be submitted as a new Github issue
-- Enhancements should [be in discussions](https://github.com/lunarphp/lunar/discussions/new?category=enhancements)
-- Feature requests should [be in discussions](https://github.com/lunarphp/lunar/discussions/new?category=feature-requests)
+## Installation
 
-## Community
+```bash
+composer require wg-vn/lunar-core:^2.0@alpha
+```
 
-- [Join our discord server](https://lunarphp.com/discord) and chat to the developers and people using Lunar.
-- [We have a roadmap](https://github.com/orgs/lunarphp/projects/9) where we will be detailing which features are next.
+The host app must create the `activity_log` table and the permission tables from
+`spatie/laravel-activitylog` 5 and `spatie/laravel-permission` 8 (publish their migrations).
 
-## Packages in this monorepo
+An app that runs no Lunar staff panel and keeps its own roles in the permission tables should
+publish Lunar's config and set:
 
-### Admin panel
+```php
+// config/lunar/staff.php
+'register_guard' => false,
+'seed_roles_and_permissions' => false,
+```
 
-The admin panel is provided to enable you to manage your store via a modern interface. You can manage all aspects of 
-your store including products, orders, staff members etc. It's built using Filament and can be extended to meet each of 
-your stores requirements.
+## Keeping up with upstream
 
-### Core
+```bash
+git fetch upstream 2.x            # upstream = https://github.com/lunarphp/lunar.git, fetched with --no-tags
+git merge upstream/2.x
+```
 
-The core Lunar package, this provides all the things needed for your store to function. This is where all the models, 
-actions and utilities live and is required by the admin hub.
+Conflicts land in the files this fork owns: `composer.json`, `.gitattributes`, `.github/workflows`,
+`README.md`, `CHANGELOG.md`, `phpstan.neon.dist`, plus any core file changed above. Keep the fork's
+side of each. A new upstream dependency in `packages/core/composer.json` goes into the root
+`composer.json` too, since the root file is the one Packagist publishes.
 
----
+Then run the checks CI runs:
+
+```bash
+vendor/bin/pest --testsuite core --parallel
+vendor/bin/phpstan analyse --no-progress
+vendor/bin/pint --test packages/core tests/core
+```
+
+## Releasing
+
+Versions follow upstream's with one more segment: the first release built on upstream
+`2.0.0-alpha.6` is `v2.0.0-alpha.6.1`, the next one `v2.0.0-alpha.6.2`, and the first after merging
+upstream `2.0.0-alpha.7` is `v2.0.0-alpha.7.1`.
+
+1. Add a `## [x.y.z...]` section to `CHANGELOG.md`.
+2. Tag and push that tag only: `git tag v2.0.0-alpha.6.1 && git push origin v2.0.0-alpha.6.1`.
+   Never `git push --tags`: the local clone may hold upstream's tags.
+3. The `Publish to Packagist` workflow asks Packagist to re-read the repository and creates a GitHub
+   Release from the changelog section.
+
+The workflow updates an existing Packagist package. The first time, submit
+`https://github.com/wg-vn/lunar` once at <https://packagist.org/packages/submit>.
 
 ## License
 
-Lunar is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT. Lunar is copyright LunarPHP Ltd; see [LICENSE.md](LICENSE.md).

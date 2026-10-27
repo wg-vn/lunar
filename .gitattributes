@@ -15,3 +15,17 @@
 /phpstan.neon.dist export-ignore
 /phpunit.xml export-ignore
 /pint.json export-ignore
+
+# Only core is published from this repository (wg-vn/lunar-core).
+/packages/** export-ignore
+/packages/core -export-ignore
+/packages/core/** -export-ignore
+/.claude export-ignore
+/CLAUDE.md export-ignore
+/CONTRIBUTING.md export-ignore
+/package.json export-ignore
+/scripts export-ignore
+/specs export-ignore
+/tests export-ignore
+/TODO.md export-ignore
+/WHATS-NEW.md export-ignore

@@ -1,5 +1,15 @@
 # Lunar v2
 
+## This fork (wg-vn/lunar-core) — read first
+
+This repository is a copy of upstream `lunarphp/lunar` `2.x` that publishes only `packages/core`, as `wg-vn/lunar-core`, from the root `composer.json`. Where the upstream guidance below disagrees, this section wins:
+
+- Only core's dependencies are installed, so only `vendor/bin/pest --testsuite core --parallel` runs; the other suites, the host app at `../../` and the `lunar:pr-review` skill do not exist here. PHPStan is scoped to `packages/core`.
+- Keep the diff against upstream as small as possible, because every change is a merge conflict on the next `git merge upstream/2.x`. The fork's changes and the release process are listed in `README.md` and `CHANGELOG.md`.
+- Never push tags in bulk: the local clone holds upstream's tags, and a pushed tag becomes a Packagist version.
+
+## Upstream guidance
+
 Lunar is a headless PHP/Laravel e-commerce package. This directory is the **package monorepo** (composed of sub-packages under `packages/`). It is consumed by a host Laravel app sitting at `../../` (the `lunar-v2` root), which is used to run, test, and exercise the package during development.
 
 ## Layout
