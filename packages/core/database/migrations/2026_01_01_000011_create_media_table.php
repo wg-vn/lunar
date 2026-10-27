@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (Schema::hasTable('media')) {
+        if (! config('lunar.database.create_media_table', true) || Schema::hasTable('media')) {
             return;
         }
 
@@ -34,6 +34,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (! config('lunar.database.create_media_table', true)) {
+            return;
+        }
+
         Schema::dropIfExists('media');
     }
 };

@@ -19,6 +19,7 @@ install on top of it. The PHP namespace stays `Lunar\Core\`. For everything Luna
 | `activity_log` and permission-table migrations | shipped in core | not shipped; the host app owns these tables |
 | Staff roles and permissions seeded after `migrate` | always | behind `lunar.staff.seed_roles_and_permissions` (default `true`) |
 | Causer of core's own activity entries | `auth()->user()`, set explicitly | activitylog's `CauserResolver` (the signed-in user unless the app overrides it) |
+| `media` table migration | always runs | behind `lunar.database.create_media_table` (default `true`) |
 
 Core's own migrations for the `activity_log` and permission tables skipped tables that already
 existed on the way up, but dropped them on the way down. Rolling back Lunar's migrations in an app
@@ -40,6 +41,13 @@ publish Lunar's config and set:
 // config/lunar/staff.php
 'register_guard' => false,
 'seed_roles_and_permissions' => false,
+```
+
+An app that creates spatie/laravel-medialibrary's `media` table in its own migration should set:
+
+```php
+// config/lunar/database.php
+'create_media_table' => false,
 ```
 
 ## Keeping up with upstream

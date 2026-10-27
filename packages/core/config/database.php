@@ -39,4 +39,17 @@ return [
     */
     'disable_migrations' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Media table
+    |--------------------------------------------------------------------------
+    |
+    | Core creates spatie/laravel-medialibrary's `media` table when it doesn't
+    | exist yet. Set to false when your app creates that table in its own
+    | migration: core's migration then neither creates it on a fresh database
+    | nor drops it on rollback.
+    |
+    */
+    'create_media_table' => true,
+
 ];

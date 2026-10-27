@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versions follow
 upstream Lunar's with one more segment; see the Releasing section of the README.
 
+## [2.0.0-alpha.6.3] - 2026-10-26
+
+### Added
+- `lunar.database.create_media_table` config switch (default `true`). When `false`, core's
+  `create_media_table` migration neither creates the `media` table nor drops it on rollback, for an
+  app that creates that table in its own migration. Core's migration sorts before such an app's on a
+  fresh database, so with the switch on both try to create the table.
+
 ## [2.0.0-alpha.6.2] - 2026-10-26
 
 ### Changed
