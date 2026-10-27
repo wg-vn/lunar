@@ -3,8 +3,8 @@
 namespace Lunar\Core\Models\Concerns;
 
 use Illuminate\Support\Arr;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity as SpatieLogsActivity;
+use Spatie\Activitylog\Models\Concerns\LogsActivity as SpatieLogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 trait LogsActivity
 {
@@ -22,7 +22,7 @@ trait LogsActivity
             ->logAll()
             ->logExcept(array_merge(['updated_at'], static::getActivitylogExcept()))
             ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+            ->dontLogEmptyChanges();
     }
 
     public static function addActivitylogExcept(array|string $fields)

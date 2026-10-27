@@ -1,46 +1,45 @@
 {
-    "name": "lunarphp/lunarmono",
-    "description": "Lunar Monorepo",
+    "name": "wg-vn/lunar-core",
+    "description": "Lunar's e-commerce core for Laravel, forked to run on spatie/laravel-activitylog 5, laravel/scout 11 and spatie/laravel-permission 8.",
+    "keywords": [
+        "lunar",
+        "laravel",
+        "ecommerce",
+        "e-commerce",
+        "headless",
+        "store",
+        "shop",
+        "cart"
+    ],
+    "type": "library",
+    "homepage": "https://github.com/wg-vn/lunar",
     "license": "MIT",
     "authors": [
+        {
+            "name": "wg-vn",
+            "email": "wgarcia@vestednetworks.com",
+            "role": "Developer"
+        },
         {
             "name": "Lunar",
             "homepage": "https://lunarphp.io/"
         }
     ],
     "require": {
-        "bacon/bacon-qr-code": "^3.0",
-        "barryvdh/laravel-dompdf": "^3.0",
-        "dompdf/dompdf": "^3.1",
+        "php": "^8.4",
         "ext-bcmath": "*",
         "ext-exif": "*",
         "ext-intl": "*",
-        "filament/filament": "^5.0",
-        "filament/spatie-laravel-media-library-plugin": "^5.0",
-        "guzzlehttp/guzzle": "^7.3",
-        "http-interop/http-factory-guzzle": "^1.2",
-        "inertiajs/inertia-laravel": "^3.0",
-        "lunarphp/nestedset": "^1.0",
         "laravel/framework": "^12.0|^13.0",
-        "laravel/scout": "^10.13.1",
-        "livewire/livewire": "^4.1",
+        "laravel/scout": "^11.7",
         "lukascivil/treewalker": "0.9.1",
-        "lunarphp/admin": "self.version",
-        "lunarphp/filament": "self.version",
-        "meilisearch/meilisearch-php": "^1.10",
-        "php": "^8.4",
-        "pragmarx/google2fa": "^9.0",
-        "spatie/laravel-activitylog": "^4.10.1",
+        "lunarphp/nestedset": "^1.0",
+        "spatie/laravel-activitylog": "^5.1",
         "spatie/laravel-blink": "^1.7.1",
-        "spatie/laravel-data": "^4.23",
         "spatie/laravel-medialibrary": "^11.12.7",
         "spatie/laravel-model-states": "^2.11",
-        "spatie/laravel-permission": "^6.12",
-        "spatie/php-structure-discoverer": "^2.3.1",
-        "spatie/typescript-transformer": "^3.3",
-        "stripe/stripe-php": "^16.0",
-        "mallardduck/blade-lucide-icons": "^1.26",
-        "typesense/typesense-php": "^4.9"
+        "spatie/laravel-permission": "^8.3",
+        "spatie/php-structure-discoverer": "^2.3.1"
     },
     "require-dev": {
         "larastan/larastan": "^3.0",
@@ -50,106 +49,46 @@
         "pestphp/pest": "^3.0|^4.0",
         "pestphp/pest-plugin-laravel": "^3.0|^4.0",
         "phpstan/phpstan": "^2.1.17",
-        "rector/rector": "^2.0",
-        "symplify/monorepo-builder": "^11.0"
+        "spatie/invade": "^2.2"
     },
     "autoload": {
         "files": [
-            "packages/admin/src/helpers.php",
-            "packages/core/src/helpers.php",
-            "packages/search/src/helpers.php"
+            "packages/core/src/helpers.php"
         ],
         "psr-4": {
             "Lunar\\Core\\": "packages/core/src",
-            "Lunar\\Admin\\": "packages/admin/src/",
             "Lunar\\Core\\Database\\Factories\\": "packages/core/database/factories",
             "Lunar\\Core\\Database\\Seeders\\": "packages/core/database/seeders",
-            "Lunar\\Core\\Database\\State\\": "packages/core/database/state",
-            "Lunar\\DemoData\\": "packages/demo-data/src",
-            "Lunar\\DemoData\\Database\\Factories\\": "packages/demo-data/database/factories",
-            "Lunar\\DemoData\\Database\\Seeders\\": "packages/demo-data/database/seeders",
-            "Lunar\\Filament\\": "packages/filament/src/",
-            "Lunar\\Meilisearch\\": "packages/meilisearch/src/",
-            "Lunar\\Panel\\": "packages/panel/src/",
-            "Lunar\\Panel\\Database\\Factories\\": "packages/panel/database/factories",
-            "Lunar\\Paypal\\": "packages/paypal/src/",
-            "Lunar\\Search\\": "packages/search/src/",
-            "Lunar\\Shipping\\": "packages/table-rate-shipping/src",
-            "Lunar\\Shipping\\Database\\Factories\\": "packages/table-rate-shipping/database/factories",
-            "Lunar\\Stripe\\": "packages/stripe/src/",
-            "Lunar\\Upgrade\\": "packages/upgrade/src/",
-            "Lunar\\Upgrade\\Database\\Migrations\\": "packages/upgrade/database/migrations"
+            "Lunar\\Core\\Database\\State\\": "packages/core/database/state"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Lunar\\Tests\\": "tests",
-            "Lunar\\Tests\\Admin\\": "tests/admin",
-            "Lunar\\Tests\\Core\\": "tests/core",
-            "Lunar\\Tests\\DemoData\\": "tests/demo-data",
-            "Lunar\\Tests\\Filament\\": "tests/filament",
-            "Lunar\\Tests\\Panel\\": "tests/panel",
-            "Lunar\\Tests\\Paypal\\": "tests/paypal",
-            "Lunar\\Tests\\Shipping\\": "tests/shipping",
-            "Lunar\\Shipping\\Tests\\": "packages/table-rate-shipping/tests",
-            "Lunar\\Tests\\Stripe\\": "tests/stripe",
-            "Lunar\\Tests\\Search\\": "tests/search",
-            "Lunar\\Tests\\Upgrade\\": "tests/upgrade",
-            "LunarPanelExample\\": "packages/panel-addon-example/src/"
+            "Lunar\\Tests\\Core\\": "tests/core"
         }
     },
     "extra": {
-        "lunar": {
-            "name": [
-                "Table Rate Shipping",
-                "Search",
-                "Meilisearch",
-                "Paypal Payments",
-                "Stripe Payments",
-                "Upgrade",
-                "Demo Data"
-            ]
-        },
         "laravel": {
             "providers": [
-                "Lunar\\Stripe\\StripePaymentsServiceProvider",
-                "Lunar\\Paypal\\PaypalServiceProvider",
-                "Lunar\\Meilisearch\\MeilisearchServiceProvider",
-                "Lunar\\Search\\SearchServiceProvider",
-                "Lunar\\Filament\\LunarFilamentServiceProvider",
-                "Lunar\\Admin\\LunarPanelProvider",
-                "Lunar\\Shipping\\ShippingServiceProvider",
-                "Lunar\\Upgrade\\UpgradeServiceProvider",
-                "Lunar\\DemoData\\DemoDataServiceProvider",
-                "Lunar\\Panel\\PanelServiceProvider",
                 "Lunar\\Core\\LunarServiceProvider"
             ]
         }
     },
     "replace": {
-        "lunarphp/core": "self.version",
-        "lunarphp/admin": "self.version",
-        "lunarphp/demo-data": "self.version",
-        "lunarphp/filament": "self.version",
-        "lunarphp/meilisearch": "self.version",
-        "lunarphp/panel": "self.version",
-        "lunarphp/panel-addon-example": "self.version",
-        "lunarphp/paypal": "self.version",
-        "lunarphp/search": "self.version",
-        "lunarphp/stripe": "self.version",
-        "lunarphp/table-rate-shipping": "self.version",
-        "lunarphp/upgrade": "self.version"
+        "lunarphp/core": "self.version"
     },
     "scripts": {
-        "pint": "pint",
-        "test:pest": "pest",
-        "test:phpstan": "phpstan analyse",
+        "pint": "pint packages/core tests/core",
+        "test:pest": "pest --testsuite core --parallel",
+        "test:phpstan": "phpstan analyse --no-progress",
         "test": [
             "@test:pest",
             "@test:phpstan"
         ]
     },
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true

@@ -39,19 +39,19 @@ it('logs a fulfilment state change against the order', function () {
 
     expect($log)->not->toBeNull()
         ->and($log->subject_id)->toBe($this->order->id)
-        ->and($log->getExtraProperty('type'))->toBe('state')
-        ->and($log->getExtraProperty('from'))->toBe('pending')
-        ->and($log->getExtraProperty('to'))->toBe('shipped')
-        ->and($log->getExtraProperty('fulfilment_id'))->toBe($fulfilment->id);
+        ->and($log->getProperty('type'))->toBe('state')
+        ->and($log->getProperty('from'))->toBe('pending')
+        ->and($log->getProperty('to'))->toBe('shipped')
+        ->and($log->getProperty('fulfilment_id'))->toBe($fulfilment->id);
 });
 
 it('logs a hold with its reason and a release', function () {
     $fulfilment = $this->order->createFulfilment([$this->line->id => 2]);
 
     $fulfilment->hold('out-of-stock');
-    expect(latestFulfilmentActivity()->getExtraProperty('type'))->toBe('held')
-        ->and(latestFulfilmentActivity()->getExtraProperty('reason'))->toBe('out-of-stock');
+    expect(latestFulfilmentActivity()->getProperty('type'))->toBe('held')
+        ->and(latestFulfilmentActivity()->getProperty('reason'))->toBe('out-of-stock');
 
     $fulfilment->refresh()->release();
-    expect(latestFulfilmentActivity()->getExtraProperty('type'))->toBe('released');
+    expect(latestFulfilmentActivity()->getProperty('type'))->toBe('released');
 });

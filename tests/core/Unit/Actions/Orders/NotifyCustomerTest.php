@@ -72,7 +72,7 @@ test('sends the chosen notification to the order contacts and logs each send', f
     expect($logs)->toHaveCount(2)
         ->and($logs->pluck('properties.email')->sort()->values()->all())
         ->toBe(['billing@example.com', 'shipping@example.com'])
-        ->and($logs->first()->getExtraProperty('notification'))->toBe('Order update');
+        ->and($logs->first()->getProperty('notification'))->toBe('Order update');
 
     Event::assertDispatched(
         OrderCustomerNotified::class,
@@ -112,7 +112,7 @@ test('passes the custom message through to the notification and the log', functi
         fn (FakeOrderUpdateNotification $notification) => $notification->message === 'Sorry for the delay'
     );
 
-    expect(Activity::query()->where('event', 'email-notification')->first()->getExtraProperty('message'))
+    expect(Activity::query()->where('event', 'email-notification')->first()->getProperty('message'))
         ->toBe('Sorry for the delay');
 });
 

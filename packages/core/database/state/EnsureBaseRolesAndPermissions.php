@@ -16,6 +16,10 @@ class EnsureBaseRolesAndPermissions
 
     public function run()
     {
+        if (! config('lunar.staff.seed_roles_and_permissions', true)) {
+            return;
+        }
+
         $manifest = app(Manifest::class);
         $guard = $manifest->getAuthGuard();
 

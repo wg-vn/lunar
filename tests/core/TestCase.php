@@ -15,6 +15,8 @@ use Spatie\LaravelBlink\BlinkServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
+use function Orchestra\Testbench\after_resolving;
+
 class TestCase extends BaseTestCase
 {
     protected function setUp(): void
@@ -35,6 +37,17 @@ class TestCase extends BaseTestCase
 
         // Freeze time to avoid timestamp errors
         $this->freezeTime();
+    }
+
+    // The activity log and permission tables belong to the host app, so core's
+    // suite creates them from its own copies of the spatie migration stubs.
+    protected function defineDatabaseMigrations(): void
+    {
+        parent::defineDatabaseMigrations();
+
+        after_resolving($this->app, 'migrator', static function ($migrator) {
+            $migrator->path(__DIR__.'/database/migrations');
+        });
     }
 
     protected function getPackageProviders($app)

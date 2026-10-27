@@ -38,7 +38,7 @@ test('changes are recorded in activity log', function () {
         'name' => 'Foobar',
     ]);
 
-    $log = $channel->activities()->whereEvent('updated')->first();
+    $log = $channel->activitiesAsSubject()->whereEvent('updated')->first();
 
     expect($log)->not->toBeNull();
 });

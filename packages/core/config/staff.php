@@ -37,4 +37,16 @@ return [
     |
     */
     'register_guard' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seed base roles and permissions
+    |--------------------------------------------------------------------------
+    |
+    | When true Lunar writes its base staff roles and permissions into the
+    | spatie/laravel-permission tables after every migrate. Set to false when
+    | the app runs no Lunar staff panel and keeps its own roles in those tables.
+    |
+    */
+    'seed_roles_and_permissions' => true,
 ];

@@ -43,7 +43,7 @@ it('logs a dedicated event with the reason when an order is cancelled', function
 
     expect($log)->not->toBeNull()
         ->and($log->subject_id)->toBe($this->order->id)
-        ->and($log->getExtraProperty('reason'))->toBe('items-unavailable');
+        ->and($log->getProperty('reason'))->toBe('items-unavailable');
 });
 
 it('does not log a generic "updated" entry when closing', function () {
